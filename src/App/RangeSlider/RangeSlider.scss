@@ -1,0 +1,263 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,700");
+:root {
+  --font-default: "Roboto", "Arial", sans-serif;
+  --va-font-size: 12px;
+  --va-blue-grey-600: #525566;
+  --va-blue-grey-500: #70748c;
+  --va-blue-grey-300: #d5d9e6;
+  --va-grey-600: #808080;
+  --va-grey-0: #ffffff;
+  --va-slider-dot-size: 16px;
+}
+
+@mixin slider-dot {
+  background-color: var(--va-blue-grey-600);
+  background-position: 0 0;
+  width: var(--va-slider-dot-size);
+  height: var(--va-slider-dot-size);
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+  cursor: pointer;
+  z-index: 20;
+  pointer-events: auto;
+  transition: transform 0.2s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  &:hover {
+    @include slider-dot--focus;
+    transform: scale(1.1);
+  }
+}
+@mixin slider-dot--focus {
+  background-position-y: -21px;
+}
+@mixin slider-dot--active {
+  cursor: grabbing;
+}
+
+@mixin track {
+  cursor: default;
+  height: 1px;
+  outline: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+@mixin reset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.va-range-slider {
+  .va-range-slider-container {
+    height: 4px;
+    clear: both;
+    position: relative;
+    max-width: 300px;
+    border-radius: 2px;
+    background: var(--va-blue-grey-300);
+    .va-range-slider--slider-bar {
+      height: 4px;
+      max-width: 300px;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: var(--va-blue-grey-600);
+    }
+
+    .va-range-slider--step {
+      @include reset;
+      display: flex;
+      justify-content: stretch;
+      height: 4px;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      span {
+        width: 1px;
+        height: 4px;
+        background-color: white;
+        position: absolute;
+        &:first-child {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+  .va-range-slider-values {
+    display: flex;
+    justify-content: stretch;
+    width: 100%;
+    max-width: 300px;
+    font-size: 12px;
+    border-radius: 2px;
+    position: relative;
+    left: 0;
+    top: 4px;
+    span {
+      width: auto;
+      position: absolute;
+      transform: translateX(-50%);
+    }
+  }
+  .va-range-slider--input {
+    @include reset;
+    width: 100%;
+    height: 0;
+    display: block;
+    position: relative;
+    pointer-events: none;
+    outline: none !important;
+    &::-webkit-slider-runnable-track {
+      @include track;
+    }
+    &::-webkit-slider-thumb {
+      @include slider-dot;
+      margin: -6px 0 0 0;
+    }
+    &::-webkit-slider-progress {
+      @include reset;
+    }
+
+    &::-moz-focus-outer {
+      border: 0;
+    }
+    &::-moz-range-track {
+      @include track;
+    }
+    &::-moz-range-progress {
+      @include reset;
+    }
+    &::-moz-range-thumb {
+      @include slider-dot;
+    }
+
+    &::-ms-thumb {
+      @include slider-dot;
+    }
+    &:focus {
+      &::-webkit-slider-thumb {
+        @include slider-dot--focus;
+      }
+      &::-moz-range-thumb {
+        @include slider-dot--focus;
+      }
+      &::-ms-thumb {
+        @include slider-dot--focus;
+      }
+    }
+    &:active {
+      &::-webkit-slider-thumb {
+        @include slider-dot--active;
+      }
+      &::-moz-range-thumb {
+        @include slider-dot--active;
+      }
+      &::-ms-thumb {
+        @include slider-dot--active;
+      }
+    }
+    &.va-range-slider--min {
+      z-index: 21;
+
+      &::-webkit-slider-thumb {
+        margin-left: -2px;
+      }
+      &::-moz-range-thumb {
+        transform: translate(-2px, 4px);
+      }
+      /* &:hover + .va-range-slider-tooltip-min {
+        display: initial;
+      } */
+    }
+    &.va-range-slider--max {
+      z-index: 20;
+
+      &::-webkit-slider-thumb {
+        background-position-x: 26px;
+        margin-left: 2px;
+      }
+      &::-moz-range-thumb {
+        background-position-x: 26px;
+        transform: translate(2px, 4px);
+      }
+      &::-ms-thumb {
+        background-position-x: 26px;
+      }
+      /* &:hover + .va-range-slider-tooltip-max {
+        display: initial;
+      } */
+    }
+  }
+}
+
+/* .va-range-slider-tooltip-min,
+.va-range-slider-tooltip-max {
+  display: none;
+  position: absolute;
+} */
+
+/**
+ * Tooltip Styles
+ */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: unquote("progid: DXImageTransform.Microsoft.Alpha(Opacity=0)");
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 150%;
+  left: var(--tooltipPos);
+  margin-bottom: 10px;
+  width: 30px;
+  height: 24px;
+  transform: translateX(-50%);
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 3px;
+  background-color: var(--va-grey-600);
+  color: var(--va-grey-0);
+  content: attr(data-tooltip);
+  font-size: 12px;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: unquote("progid: DXImageTransform.Microsoft.Alpha(Opacity=100)");
+  opacity: 1;
+}

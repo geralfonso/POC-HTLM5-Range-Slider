@@ -1,8 +1,7 @@
 import * as React from "react";
 import { render } from "react-dom";
 
-import "./styles.scss";
-import RangeSlider from "./RangeSlider";
+import App from "./App";
 
 const rootElement = document.getElementById("root");
-render(<RangeSlider />, rootElement);
+render(<App />, rootElement);
