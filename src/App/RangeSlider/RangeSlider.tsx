@@ -102,7 +102,7 @@ const RangeSlider: React.FC<IRangeSlider> = ({
     };
   }
 
-  console.log("currentMin: %s, currentMax: %s,", currentMin, currentMax);
+  console.log(`currentMin: ${currentMin}, currentMax: ${currentMax}`);
   return (
     <div className="va-range-slider">
       <div className="va-range-slider-container">
