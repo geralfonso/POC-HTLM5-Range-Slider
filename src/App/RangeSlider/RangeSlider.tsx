@@ -79,7 +79,7 @@ const RangeSlider: React.FC<IRangeSlider> = ({
     return min + index * step;
   }
 
-  function getTickStyle(hasValues?: boolean): React.ReactElement[] {
+  function renderStepsOrValues(renderValues?: boolean): React.ReactElement[] {
     const rangeProgress: number = max - min;
     const howManey: number = step ? rangeProgress / step : 1;
     return Array.from(range(0, howManey), (_: number, index: number) => {
@@ -90,7 +90,7 @@ const RangeSlider: React.FC<IRangeSlider> = ({
             left: `${(100 / howManey) * index}%`
           }}
         >
-          {hasValues && displayValues(index)}
+          {renderValues && displayValues(index)}
         </span>
       );
     });
@@ -110,7 +110,7 @@ const RangeSlider: React.FC<IRangeSlider> = ({
           className="va-range-slider--slider-bar"
           style={getProgressStyle()}
         />
-        <div className="va-range-slider--step">{getTickStyle()}</div>
+        <div className="va-range-slider--step">{renderStepsOrValues()}</div>
         <input
           className="va-range-slider--input va-range-slider--min"
           type="range"
@@ -137,7 +137,7 @@ const RangeSlider: React.FC<IRangeSlider> = ({
           style={getTooltipPos(currentMax)}
         />
       </div>
-      <div className="va-range-slider-values">{getTickStyle(true)}</div>
+      <div className="va-range-slider-values">{renderStepsOrValues(true)}</div>
     </div>
   );
 };
